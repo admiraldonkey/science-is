@@ -31,6 +31,8 @@ const chooseWord = () => {
 };
 
 export default function App() {
+  const [scientists, setScientists] = useState([]);
+  const [gotScientists, setGotScientists] = useState(false);
   return (
     <div>
       <UserProvider>
@@ -38,7 +40,13 @@ export default function App() {
         <h1 className="headline">
           Science is... <span className="headline-word">{chooseWord()}</span>
         </h1>
-        <SiteRoutes chooseWord={chooseWord} />
+        <SiteRoutes
+          chooseWord={chooseWord}
+          scientists={scientists}
+          setScientists={setScientists}
+          gotScientists={gotScientists}
+          setGotScientists={setGotScientists}
+        />
       </UserProvider>
     </div>
   );

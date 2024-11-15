@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link, useLocation } from "react-router-dom";
 
-export function NewScientist() {
+export function NewScientist(setGotScientists) {
   const { isLoggedIn } = useUser();
   const [form, setForm] = useState({ name: "", image: "", bio: "" });
   const { state } = useLocation();
@@ -32,6 +32,7 @@ export function NewScientist() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    setGotScientists(false);
   }
 
   function handleChange(e) {

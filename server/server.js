@@ -60,6 +60,29 @@ app.get("/posts", async function (request, response) {
   response.json(posts);
 });
 
+app.get("/posts/:scientist", async function (request, response) {
+  const param = request.url.split(":", [2]);
+  const getScientist = param[1];
+  const scientist = decodeURI(getScientist);
+  const results = await db.query(
+    `SELECT       
+      posts.id,
+      posts.content,
+      posts.image,
+      posts.likes,
+      scientists.name AS scientist,
+      users.name AS user
+    FROM 
+      posts 
+    JOIN scientists ON posts.scientist_id = scientists.id
+    JOIN users ON posts.user_id = users.id
+    WHERE scientist_id = (SELECT id FROM scientists WHERE name = $1)`,
+    [scientist]
+  );
+  const posts = results.rows;
+  response.json(posts);
+});
+
 app.post("/posts", async function (request, response) {
   const content = request.body.content;
   const image = request.body.image;
@@ -68,9 +91,26 @@ app.post("/posts", async function (request, response) {
   const result = await db.query(
     `
     INSERT INTO posts (content, image, scientist_id, user_id)
-    VALUES ($1, $2, (SELECT id FROM scientists WHERE name = $3), (SELECT id FROM users WHERE name = $4))`,
+    VALUES ($1, $2, $3, (SELECT id FROM users WHERE name = $4))`,
     [content, image, scientist, user]
   );
+  response.json("200 OK");
+});
+
+app.put("/posts", async function (request, response) {
+  const postId = request.body.id;
+  const likes = request.body.likes;
+  const result = await db.query("UPDATE posts SET likes = $1 WHERE id = $2", [
+    likes,
+    postId,
+  ]);
+  response.json("200 OK");
+});
+
+app.delete("/posts/:id", async function (request, response) {
+  const getPostId = request.url.split("/", [3]);
+  const postId = getPostId[2];
+  const result = await db.query("DELETE FROM posts WHERE id=$1", [postId]);
   response.json("200 OK");
 });
 

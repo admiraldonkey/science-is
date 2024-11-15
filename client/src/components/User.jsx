@@ -12,11 +12,9 @@ export default function User() {
       const response = await fetch("http://localhost:8080/users");
       const data = await response.json();
       setUsers(data);
-      console.log(data);
     }
     if (!isLoggedIn) {
       getUsers();
-      console.log("got users");
     }
   }, [isLoggedIn]);
 

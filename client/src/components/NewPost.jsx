@@ -2,30 +2,45 @@ import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link, useLocation } from "react-router-dom";
 
-export function NewPost() {
+export function NewPost({
+  scientists,
+  setScientists,
+  gotScientists,
+  setGotScientists,
+}) {
   const { user, isLoggedIn } = useUser();
   const [form, setForm] = useState({ content: "", image: "", scientist: "" });
-  const [scientists, setScientists] = useState([]);
+  //   const [scientists, setScientists] = useState([]);
+  //   const gotScientists = scientists.length > 0 ? true : false;
+
+  useEffect(() => {
+    async function getScientists() {
+      const response = await fetch("http://localhost:8080/scientists");
+      const data = await response.json();
+      setScientists(data);
+      setGotScientists(true);
+    }
+    if (!gotScientists) {
+      getScientists();
+    }
+  }, [gotScientists, setScientists, setGotScientists]);
 
   function handleAddPost(e) {
     e.preventDefault();
     if (isLoggedIn) {
-      const nameToParse = form.scientist.split(" ");
-      // Capitalises 1st letter of each part of scientists name to ensure consistency with any existing db record
-      // Thanks to https://www.freecodecamp.org/news/how-to-capitalize-words-in-javascript/
-      const parsedName = nameToParse
-        .map((word) => {
-          return word[0].toUpperCase() + word.substring(1);
-        })
-        .join(" ");
-      handleSubmitPost(parsedName);
+      if (form.scientist === "default") {
+        console.log("Please select a scientist from the drop down list");
+      } else {
+        handleSubmitPost();
+      }
     } else {
       console.log("Please log in to create a post");
     }
   }
 
-  function handleSubmitPost(name) {
-    const data = { ...form, scientist: name, user: user };
+  function handleSubmitPost() {
+    const scientistId = parseInt(form.scientist);
+    const data = { ...form, scientist: scientistId, user: user };
     console.log("data submitted: ", data);
     const response = fetch(`http://localhost:8080/posts`, {
       method: "POST",
@@ -62,14 +77,16 @@ export function NewPost() {
         <br />
         <label htmlFor="scientist">Associated scientist</label>
         <br />
-        {/* Consider switching this to drop down menu of available scientists */}
-        <input
-          type="text"
-          id="scientist"
-          name="scientist"
-          placeholder="Enter name of scientist"
-          onChange={handleChange}
-        />
+        <select name="scientist" id="scientist" onChange={handleChange}>
+          <option value="default">--Select a scientist--</option>
+          {scientists.map((scientist) => {
+            return (
+              <option key={scientist.id} value={scientist.id}>
+                {scientist.name}
+              </option>
+            );
+          })}
+        </select>
         <br />
         <button onClick={handleAddPost}>Create Post</button>
       </form>
