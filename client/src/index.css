@@ -26,6 +26,7 @@ body {
   color: var(--background-colour);
   min-height: 10vh;
   padding: 0px 10px;
+  font-size: 30px;
 }
 
 /* NAV LINKS */
@@ -54,7 +55,7 @@ body {
 
 .headline {
   margin: 5px;
-  font-size: 24px;
+  font-size: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,6 +74,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: right;
+  margin-right: 10px;
+}
+
+.nav-login input {
+  font-size: 20px;
 }
 
 .nav-login .user-name {
@@ -86,6 +92,7 @@ body {
   border: 1px solid var(--accent-colour);
   border-radius: 10px;
   padding: 3px 6px;
+  font-size: 20px;
 }
 
 .user-login button:hover {
@@ -111,17 +118,17 @@ body {
   align-items: center;
   justify-content: space-around;
   width: 80%;
-  height: 45%;
-  margin-bottom: 5vh;
+  height: 50%;
+  margin-bottom: 10vh;
 }
 
 .page-content .site-desc {
   margin-top: 0px;
-  font-size: 20px;
+  font-size: 40px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   text-align: justify;
-  line-height: 30px;
+  line-height: 60px;
 }
 
 .homepage-site-name {
@@ -136,8 +143,8 @@ body {
 }
 
 .home-buttons button {
-  font-size: 20px;
-  padding: 6px 10px;
+  font-size: 30px;
+  padding: 10px 15px;
   border: 0px solid var(--secondary-colour);
   border-radius: 20px;
   box-shadow: 0px 0px 6px var(--background-colour);
@@ -175,10 +182,12 @@ body {
   color: var(--secondary-colour);
   margin: 10px 0px;
   margin-left: 20px;
+  font-size: 40px;
 }
 
 .scientists-head p {
   margin-right: 20px;
+  font-size: 20px;
 }
 
 .scientists-head button {
@@ -189,6 +198,7 @@ body {
   margin-right: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
+  font-size: 20px;
 }
 
 .scientists-head button:hover {
@@ -211,7 +221,6 @@ body {
 .scientists-container {
   display: flex;
   flex-direction: column;
-  /* width: 80%; */
   align-items: center;
 }
 
@@ -255,6 +264,7 @@ body {
   text-align: justify;
   justify-content: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
 }
 
 .scientist-bio p {
@@ -278,11 +288,16 @@ body {
   color: var(--background-colour);
   padding: 20px;
   border-radius: 20px;
+  font-size: 30px;
 }
 
 .scientist-form label {
   margin-top: 15px;
   margin-bottom: 10px;
+}
+.scientist-form input,
+textarea {
+  font-size: 20px;
 }
 
 .scientist-form .submit-button {
@@ -295,7 +310,7 @@ body {
   width: 60%;
   border: 1px solid var(--primary-colour);
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 20px;
   padding: 5px;
 }
 
@@ -325,16 +340,19 @@ body {
   color: var(--secondary-colour);
   margin: 10px 0px;
   margin-left: 20px;
+  font-size: 40px;
 }
 
 .posts-head p {
   margin-right: 20px;
+  font-size: 20px;
 }
 
 .posts-head-left label {
   display: flex;
   justify-content: center;
   margin-right: 10px;
+  font-size: 20px;
 }
 
 /* OPTION TO FILTER POSTS */
@@ -350,6 +368,7 @@ body {
   color: var(--background-colour);
   border: 1px solid var(--background-colour);
   margin-right: 5px;
+  font-size: 20px;
 }
 
 .posts-head-left .filter-div select:hover {
@@ -365,6 +384,7 @@ body {
   padding: 1px 6px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
+  font-size: 18px;
 }
 
 .posts-head-left .filter-div button:hover {
@@ -390,6 +410,7 @@ body {
   margin-right: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
+  font-size: 20px;
 }
 
 .posts-head button:hover {
@@ -436,7 +457,7 @@ body {
 .post button {
   border: 1px solid var(--background-colour);
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 18px;
   padding: 5px;
 }
 
@@ -460,17 +481,11 @@ body {
   color: var(--background-colour);
 }
 
-.post-name-img h2 {
-  margin: 0px;
-  margin-bottom: 6px;
-  text-align: center;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  color: var(--accent-colour);
-}
-
 .post-image img {
   border-radius: 5px;
   margin-right: 10px;
+  width: 300px;
+  height: 400px;
 }
 
 .post-main {
@@ -484,11 +499,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .post-header h3 {
   margin: 0;
   color: var(--accent-colour);
+  font-size: 24px;
 }
 
 .post-content {
@@ -503,6 +520,7 @@ body {
 .post-content p {
   margin: 2px 0px;
   padding: 10px 0px;
+  font-size: 20px;
 }
 
 .post-info {
@@ -514,6 +532,8 @@ body {
 .post-info h4,
 h5 {
   margin: 0px;
+  margin-top: 10px;
+  font-size: 18px;
 }
 
 /* FORM FOR CREATING OR UPDATING POSTS */
@@ -525,11 +545,17 @@ h5 {
   color: var(--background-colour);
   padding: 20px;
   border-radius: 20px;
+  font-size: 30px;
 }
 
 .post-form label {
   margin-top: 15px;
   margin-bottom: 10px;
+}
+.post-form input,
+textarea,
+select {
+  font-size: 20px;
 }
 
 .post-form .submit-button {
@@ -542,7 +568,7 @@ h5 {
   width: 60%;
   border: 1px solid var(--primary-colour);
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 20px;
   padding: 5px;
 }
 
