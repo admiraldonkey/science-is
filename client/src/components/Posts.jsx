@@ -119,6 +119,8 @@ export default function Posts() {
           // True if post was made by currently logged in user
           const userPosted = user === post.user ? true : false;
           if (post) {
+            // Splitting larger bios by carriage returns so they can be split into multiple paragraphs on page
+            const contentArr = post.content.split("\n");
             return (
               <div key={post.id} className="post">
                 {/* Add image only if image value exists and as a link */}
@@ -151,7 +153,12 @@ export default function Posts() {
                     </div>
                   </div>
                   <div className="post-content">
-                    <p>{post.content}</p>
+                    {/* Seperate paragraphs */}
+                    {contentArr.map((para) => {
+                      if (para.length > 1) {
+                        return <p key={para.length}>{para}</p>;
+                      }
+                    })}
                   </div>
                   <div className="post-info">
                     <h4>Posted by: {post.user}</h4>

@@ -73,6 +73,7 @@ export function NewPost({
           id="content"
           placeholder="Enter your message here..."
           onChange={handleChange}
+          rows="10"
         ></textarea>
         <label htmlFor="image">Image Link (if applicable)</label>
         <input

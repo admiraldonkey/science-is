@@ -27,12 +27,15 @@ export default function User() {
     // If user already registered, logs them in. Else, registeres a new user to database and logs them in.
     if (userExists) {
       toast.success(`Welcome back, ${form.user}!`);
+    } else if (!users) {
+      toast.warn("Could not retrieve registered users. Please try again.");
     } else {
       createNewUser();
       toast.success(`New user created. Welcome, ${form.user}!`);
     }
     setIsLoggedIn(true);
     setUser(form.user);
+    setForm({ ...form, [form.name]: "" });
   }
 
   // Logs out user and updates appropriate states

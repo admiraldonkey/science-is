@@ -55,6 +55,7 @@ export default function Scientists({
                 />
               </div>
               <div className="scientist-bio">
+                {/* Seperate paragraphs */}
                 {bioArr.map((para) => {
                   if (para.length > 1) {
                     return <p key={para.length}>{para}</p>;

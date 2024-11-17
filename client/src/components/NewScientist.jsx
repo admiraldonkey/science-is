@@ -31,8 +31,8 @@ export function NewScientist(setGotScientists) {
   function postScientist() {
     const data = { ...form };
     // Will only update db if required fields are filled.
-    if (!data.name || !data.bio) {
-      toast.warn("Scientist name and bio are required!");
+    if (!data.name || !data.image || !data.bio) {
+      toast.warn("All fields are required!");
     } else {
       const response = fetch(`http://localhost:8080/scientists`, {
         method: "POST",
