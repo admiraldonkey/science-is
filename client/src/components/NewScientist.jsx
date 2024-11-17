@@ -34,11 +34,14 @@ export function NewScientist(setGotScientists) {
     if (!data.name || !data.image || !data.bio) {
       toast.warn("All fields are required!");
     } else {
-      const response = fetch(`http://localhost:8080/scientists`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }).then(function (response) {
+      const response = fetch(
+        `https://science-is-server.onrender.com/scientists`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      ).then(function (response) {
         if (response.status === 200) {
           toast.success("Scientist successfully added!");
         } else {

@@ -13,7 +13,9 @@ export default function Scientists({
   // Retrieves existing scientists from database
   useEffect(() => {
     async function getScientists() {
-      const response = await fetch("http://localhost:8080/scientists");
+      const response = await fetch(
+        "https://science-is-server.onrender.com/scientists"
+      );
       const data = await response.json();
       setScientists(data);
       setGotScientists(true);

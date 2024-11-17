@@ -12,7 +12,9 @@ export default function Posts() {
   // Retrieves posts from the database
   useEffect(() => {
     async function getPosts() {
-      const response = await fetch("http://localhost:8080/posts");
+      const response = await fetch(
+        "https://science-is-server.onrender.com/posts"
+      );
       const data = await response.json();
       setPosts(data);
       // Pulls scientist names from retrieved posts and adds to an array
@@ -47,7 +49,7 @@ export default function Posts() {
     };
     updateLikes(postId, newLikes);
     const data = { id: postId, likes: newLikes };
-    const response = fetch(`http://localhost:8080/posts`, {
+    const response = fetch(`https://science-is-server.onrender.com/posts`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -62,9 +64,12 @@ export default function Posts() {
       setPosts(posts.map((post) => post.id != postId && { ...post }));
     };
     removePost(postId);
-    const response = fetch(`http://localhost:8080/posts/${postId}`, {
-      method: "DELETE",
-    }).then(function (response) {
+    const response = fetch(
+      `https://science-is-server.onrender.com/posts/${postId}`,
+      {
+        method: "DELETE",
+      }
+    ).then(function (response) {
       if (response.status === 200) {
         toast.success("Post successfully deleted!");
       } else {

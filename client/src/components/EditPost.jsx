@@ -10,14 +10,16 @@ export default function EditPost({
   setGotScientists,
 }) {
   const { user, isLoggedIn } = useUser();
-  const [form, setForm] = useState({ content: "", image: "", scientist: "" }); //{ content: "", image: "", scientist: "" }
+  const [form, setForm] = useState({ content: "", image: "", scientist: "" });
   const [post, setPost] = useState([]);
   const { id } = useParams();
 
   // Retrieve the selected post data from database
   useEffect(() => {
     async function getPosts() {
-      const response = await fetch(`http://localhost:8080/posts/edit/${id}`);
+      const response = await fetch(
+        `https://science-is-server.onrender.com/posts/edit/${id}`
+      );
       const data = await response.json();
       setPost(data);
       // Update form data to be injected as the current input values on the form
@@ -34,7 +36,9 @@ export default function EditPost({
   // Retrieves list of scientists if not already retrieved so they get added to the drop down menu
   useEffect(() => {
     async function getScientists() {
-      const response = await fetch("http://localhost:8080/scientists");
+      const response = await fetch(
+        "https://science-is-server.onrender.com/scientists"
+      );
       const data = await response.json();
       setScientists(data);
       setGotScientists(true);
@@ -62,11 +66,14 @@ export default function EditPost({
         // Update entry in database and notify user of successful action
       } else {
         const data = { ...form, id: post[0].id };
-        const response = fetch(`http://localhost:8080/posts/edit/:id`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }).then(function (response) {
+        const response = fetch(
+          `https://science-is-server.onrender.com/posts/edit/:id`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          }
+        ).then(function (response) {
           if (response.status === 200) {
             toast.success("Post successfully updated!");
           } else {

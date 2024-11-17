@@ -8,7 +8,9 @@ export default function FilteredPosts() {
   // Fetch posts filtered by a specific scientist
   useEffect(() => {
     async function getPosts() {
-      const response = await fetch(`http://localhost:8080/posts/${scientist}`);
+      const response = await fetch(
+        `https://science-is-server.onrender.com/posts/${scientist}`
+      );
       const data = await response.json();
       setPosts(data);
     }

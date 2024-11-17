@@ -15,7 +15,9 @@ export function NewPost({
   // Retrieve list of scientists from database if not already retrieved
   useEffect(() => {
     async function getScientists() {
-      const response = await fetch("http://localhost:8080/scientists");
+      const response = await fetch(
+        "https://science-is-server.onrender.com/scientists"
+      );
       const data = await response.json();
       setScientists(data);
       setGotScientists(true);
@@ -46,7 +48,7 @@ export function NewPost({
   function handleSubmitPost() {
     const scientistId = parseInt(form.scientist);
     const data = { ...form, scientist: scientistId, user: user };
-    const response = fetch(`http://localhost:8080/posts`, {
+    const response = fetch(`https://science-is-server.onrender.com/posts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

@@ -11,7 +11,9 @@ export default function User() {
   // Retrieve registered users from database
   useEffect(() => {
     async function getUsers() {
-      const response = await fetch("http://localhost:8080/users");
+      const response = await fetch(
+        "https://science-is-server.onrender.com/users"
+      );
       const data = await response.json();
       setUsers(data);
     }
@@ -48,7 +50,7 @@ export default function User() {
   // Adds a new user to the database
   async function createNewUser() {
     const data = { name: form.user };
-    const response = fetch(`http://localhost:8080/users`, {
+    const response = fetch(`https://science-is-server.onrender.com/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
