@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 export const UserContext = createContext();
 
+// Context provided to app to keep track of whether user is logged in, and if so who they're logged in as
 export function UserProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);

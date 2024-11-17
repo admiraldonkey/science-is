@@ -5,6 +5,7 @@ export default function FilteredPosts() {
   const [posts, setPosts] = useState([]);
   const { scientist } = useParams();
 
+  // Fetch posts filtered by a specific scientist
   useEffect(() => {
     async function getPosts() {
       const response = await fetch(`http://localhost:8080/posts/${scientist}`);
@@ -18,12 +19,11 @@ export default function FilteredPosts() {
   return (
     <div>
       <div className="posts-head">
-        <h1>Posts featuring {scientist}</h1>
+        <h1>{scientist}</h1>
       </div>
       <div className="posts-container">
+        {/* Loop through filtered posts and render the data for each on page */}
         {posts.map((post) => {
-          // True if post was made by currently logged in user
-          //   const userPosted = user === post.user ? true : false;
           if (post) {
             return (
               <div key={post.id} className="post">

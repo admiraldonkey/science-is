@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
+import { toast } from "react-toastify";
 
 export default function User() {
   const [form, setForm] = useState({ user: "" });
@@ -7,12 +8,14 @@ export default function User() {
 
   const [users, setUsers] = useState([]);
 
+  // Retrieve registered users from database
   useEffect(() => {
     async function getUsers() {
       const response = await fetch("http://localhost:8080/users");
       const data = await response.json();
       setUsers(data);
     }
+    // Only need to do if user is not logged in
     if (!isLoggedIn) {
       getUsers();
     }
@@ -21,25 +24,27 @@ export default function User() {
   function handleUserLogin(e) {
     e.preventDefault();
     const userExists = users.find((username) => username.name === form.user);
+    // If user already registered, logs them in. Else, registeres a new user to database and logs them in.
     if (userExists) {
-      console.log(`Welcome back, ${userExists.name}!`);
+      toast.success(`Welcome back, ${form.user}!`);
     } else {
       createNewUser();
-      console.log(`New user created. Welcome, ${form.user}!`);
+      toast.success(`New user created. Welcome, ${form.user}!`);
     }
     setIsLoggedIn(true);
     setUser(form.user);
   }
 
+  // Logs out user and updates appropriate states
   function handleSignOut() {
     setForm({ ...form, [form.name]: "" });
     setIsLoggedIn(false);
     setUser(null);
   }
 
+  // Adds a new user to the database
   async function createNewUser() {
     const data = { name: form.user };
-    console.log(data);
     const response = fetch(`http://localhost:8080/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,6 +52,7 @@ export default function User() {
     });
   }
 
+  // Keeps track of value typed into login input box
   function handleChange(e) {
     const value = e.target.value.toLowerCase();
     setForm({ ...form, [e.target.name]: value });
@@ -54,6 +60,7 @@ export default function User() {
 
   return (
     <div className="user-login">
+      {/* Conditionally render input field and button or 'logged in as' message as relevant */}
       {isLoggedIn && (
         <div>
           <span>

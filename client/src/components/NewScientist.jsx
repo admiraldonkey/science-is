@@ -1,40 +1,55 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function NewScientist(setGotScientists) {
   const { isLoggedIn } = useUser();
   const [form, setForm] = useState({ name: "", image: "", bio: "" });
   const { state } = useLocation();
 
+  // Handles user pressing button to add scientist
   function handleAddScientist(e) {
     e.preventDefault();
+    // Only allow if user is logged in.
     if (isLoggedIn) {
+      // Checks through existing scientists to see if user is attempting to post a duplicate. Informs user if this is the case.
       const alreadyExists = state.find(
         (scientist) => scientist.name === form.name
       );
       if (alreadyExists) {
-        console.log("This scientist has already been added!");
+        toast.error(`This scientist has already been added!`);
       } else {
-        console.log("call to post scientist");
         postScientist();
       }
     } else {
-      console.log("You need to be logged in to do that!");
+      toast.error(`You must be logged in to do that!`);
     }
   }
 
+  // Adds the scientist to the database and notifies user of result
   function postScientist() {
     const data = { ...form };
-    console.log(data);
-    // const response = fetch(`http://localhost:8080/scientists`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data),
-    // });
-    setGotScientists(false);
+    // Will only update db if required fields are filled.
+    if (!data.name || !data.bio) {
+      toast.warn("Scientist name and bio are required!");
+    } else {
+      const response = fetch(`http://localhost:8080/scientists`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then(function (response) {
+        if (response.status === 200) {
+          toast.success("Scientist successfully added!");
+        } else {
+          toast.error("Something went wrong");
+        }
+      });
+      // Updates state so updated scientists are retrieved from db.
+      setGotScientists(false);
+    }
   }
-
+  // Updates form data as user changes values
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }

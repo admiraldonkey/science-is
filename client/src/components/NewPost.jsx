@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function NewPost({
   scientists,
@@ -10,9 +11,8 @@ export function NewPost({
 }) {
   const { user, isLoggedIn } = useUser();
   const [form, setForm] = useState({ content: "", image: "", scientist: "" });
-  //   const [scientists, setScientists] = useState([]);
-  //   const gotScientists = scientists.length > 0 ? true : false;
 
+  // Retrieve list of scientists from database if not already retrieved
   useEffect(() => {
     async function getScientists() {
       const response = await fetch("http://localhost:8080/scientists");
@@ -25,30 +25,41 @@ export function NewPost({
     }
   }, [gotScientists, setScientists, setGotScientists]);
 
+  // Handles click to add the post
   function handleAddPost(e) {
     e.preventDefault();
+    // Conditions to only allow logged in users to login and will not post until required fields are updated. User notified as relevant.
     if (isLoggedIn) {
-      if (form.scientist === "default") {
-        console.log("Please select a scientist from the drop down list");
+      if (!form.scientist || form.scientist === "default") {
+        toast.warn("Please select a scientist from the drop down list");
+      } else if (!form.content) {
+        toast.warn("Enter some content!");
       } else {
         handleSubmitPost();
       }
     } else {
-      console.log("Please log in to create a post");
+      toast.warn("Please log in to create a post");
     }
   }
 
+  // Submits the post to the database and notifies the user of result
   function handleSubmitPost() {
     const scientistId = parseInt(form.scientist);
     const data = { ...form, scientist: scientistId, user: user };
-    console.log("data submitted: ", data);
     const response = fetch(`http://localhost:8080/posts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+    }).then(function (response) {
+      if (response.status === 200) {
+        toast.success("Post successfully added!");
+      } else {
+        toast.error("Something went wrong");
+      }
     });
   }
 
+  // Update form state as user changes form values
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
@@ -73,6 +84,7 @@ export function NewPost({
         />
         <label htmlFor="scientist">Associated scientist</label>
         <select name="scientist" id="scientist" onChange={handleChange}>
+          {/* Loops through existing scientists and adds each as an option in drop down menu */}
           <option value="default">--Select a scientist--</option>
           {scientists.map((scientist) => {
             return (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Posts() {
   const { user, isLoggedIn } = useUser();
@@ -8,15 +9,18 @@ export default function Posts() {
   const [scientistList, setScientistList] = useState([]);
   const [scientistFilter, setScientistFilter] = useState();
 
+  // Retrieves posts from the database
   useEffect(() => {
     async function getPosts() {
       const response = await fetch("http://localhost:8080/posts");
       const data = await response.json();
       setPosts(data);
+      // Pulls scientist names from retrieved posts and adds to an array
       let scientists = [];
       data.map((post) => {
         scientists.push(post.scientist);
       });
+      // Removes duplicate scientist names and updates scientistlist state so they can be added to drop down filter menu
       const listScientists = new Set(scientists);
       setScientistList(Array.from(listScientists));
     }
@@ -24,6 +28,7 @@ export default function Posts() {
     getPosts();
   }, []);
 
+  // Updates the database when user likes a post
   function handleLikePost(e) {
     const selectedPost = posts.find((post) => post.id == e.target.id);
     const postId = selectedPost.id;
@@ -49,8 +54,7 @@ export default function Posts() {
     });
   }
 
-  function handleEditPost() {}
-
+  // Deletes post from database and updates state so post is removed from page. Notifies user of result
   function handleDeletePost(e) {
     const selectedPost = posts.find((post) => post.id == e.target.id);
     const postId = selectedPost.id;
@@ -60,15 +64,18 @@ export default function Posts() {
     removePost(postId);
     const response = fetch(`http://localhost:8080/posts/${postId}`, {
       method: "DELETE",
+    }).then(function (response) {
+      if (response.status === 200) {
+        toast.success("Post successfully deleted!");
+      } else {
+        toast.error("Something went wrong");
+      }
     });
   }
 
+  // Keeps track of currently selected value in the filter drop down menu
   function switchFilter(e) {
     setScientistFilter(e.target.value);
-  }
-
-  function filterPosts() {
-    console.log("current filter selected is: " + scientistFilter);
   }
 
   return (
@@ -79,6 +86,7 @@ export default function Posts() {
           <div className="filter-div">
             <label htmlFor="filter">Filter posts by scientist:</label>
             <select name="filter" id="filter" onChange={switchFilter}>
+              {/* Loops through scientists that have posts associated with them and adds each as an option to drop down menu */}
               <option value="default">-- Select Scientist --</option>
               {scientistList.map((scientist) => {
                 return (
@@ -88,7 +96,8 @@ export default function Posts() {
                 );
               })}
             </select>
-            <button onClick={filterPosts}>
+            <button>
+              {/* Handles user trying to filter by the default drop down menu value */}
               <Link
                 to={!scientistFilter ? `/posts` : `/posts/:${scientistFilter}`}
               >
@@ -97,6 +106,7 @@ export default function Posts() {
             </button>
           </div>
         </div>
+        {/* Conditionally renders an add post button or tells user to login to interact with posts */}
         {isLoggedIn && (
           <button>
             <Link to="/newpost">Add New Post</Link>
@@ -114,7 +124,7 @@ export default function Posts() {
                 {/* Add image only if image value exists and as a link */}
                 {post.image && post.image.includes("//") && (
                   <div className="post-image">
-                    <img src={post.image} width="200" height="200" />
+                    <img src={post.image} width="200" height="250" />
                   </div>
                 )}
                 <div className="post-main">
@@ -123,7 +133,7 @@ export default function Posts() {
                     <div className="post-crud-btns">
                       {/* Edit and delete options appear only for the user who made the post */}
                       {userPosted && (
-                        <button id={post.id} onClick={handleEditPost}>
+                        <button id={post.id}>
                           <Link to={`/posts/edit/:${post.id}`}>Edit Post</Link>
                         </button>
                       )}
@@ -132,7 +142,7 @@ export default function Posts() {
                           Delete Post
                         </button>
                       )}
-                      {/* User can like any post but their own, only if logged in */}
+                      {/* User can like any post but their own, but only if logged in */}
                       {!userPosted && isLoggedIn && (
                         <button id={post.id} onClick={handleLikePost}>
                           Like post

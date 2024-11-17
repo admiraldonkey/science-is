@@ -60,6 +60,7 @@ app.get("/posts", async function (request, response) {
   response.json(posts);
 });
 
+// Retrieves specific post by provided ID
 app.get("/posts/edit/:id", async function (request, response) {
   const param = request.url.split(":", [2]);
   const id = param[1];
@@ -84,6 +85,7 @@ app.get("/posts/edit/:id", async function (request, response) {
   response.json(posts);
 });
 
+// Updates specific post by ID
 app.put("/posts/edit/:id", async function (request, response) {
   const id = request.body.id;
   const content = request.body.content;
@@ -96,6 +98,7 @@ app.put("/posts/edit/:id", async function (request, response) {
   response.json("200 OK");
 });
 
+// Filters posts by provided scientist
 app.get("/posts/:scientist", async function (request, response) {
   const param = request.url.split(":", [2]);
   const getScientist = param[1];
@@ -151,5 +154,3 @@ app.delete("/posts/:id", async function (request, response) {
 });
 
 app.listen(8080, () => console.log("App is running on port 8080"));
-
-// Need to figure out how to fix adding new post when scientist isnt already in db

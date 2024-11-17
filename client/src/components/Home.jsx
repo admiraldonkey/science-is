@@ -11,6 +11,7 @@ export default function Home({ chooseWord }) {
           insights into mind-bending concepts, discussion with like minded
           people... Perhaps give us a try and find out for yourself why{" "}
           <span className="homepage-site-name">science is...</span>{" "}
+          {/* Calls passed function that generated random word from scienceWord array */}
           <span className="site-desc-word">{chooseWord()}</span>
         </p>
         <div className="home-buttons">

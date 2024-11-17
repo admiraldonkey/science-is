@@ -1,9 +1,11 @@
+/* GLOBAL VALUES */
+
+/* SET GLOBAL COLOUR VARIABLES */
 :root {
   --background-colour: #eeeeee;
   --accent-colour: #a6e3e9;
   --secondary-colour: #393e46;
   --primary-colour: #222831;
-  /* #00adb5 */
 }
 
 * {
@@ -16,6 +18,7 @@ body {
   color: var(--primary-colour);
 }
 
+/* NAV BAR */
 .nav-bar {
   display: grid;
   grid-template-columns: 2fr 3fr 2fr;
@@ -25,6 +28,7 @@ body {
   padding: 0px 10px;
 }
 
+/* NAV LINKS */
 .nav-links {
   display: flex;
   justify-content: space-around;
@@ -41,6 +45,7 @@ body {
   color: var(--accent-colour);
 }
 
+/* NAV SITE TITLE */
 .headline-container {
   display: flex;
   justify-content: center;
@@ -63,6 +68,7 @@ body {
   display: flex;
 }
 
+/* NAV LOGIN INPUT / INFO */
 .nav-login {
   display: flex;
   align-items: center;
@@ -89,6 +95,7 @@ body {
   border: 1px solid var(--accent-colour);
 }
 
+/* LANDING PAGE */
 .home-page {
   background-color: var(--primary-colour);
   color: var(--background-colour);
@@ -154,6 +161,9 @@ body {
   font-weight: bold;
 }
 
+/* SCIENTIST PAGE */
+
+/* PAGE HEADER */
 .scientists-head {
   display: flex;
   align-items: center;
@@ -197,6 +207,7 @@ body {
   color: var(--background-colour);
 }
 
+/* INDIVIDUALLY RENDERED SCIENTISTS */
 .scientists-container {
   display: flex;
   flex-direction: column;
@@ -256,10 +267,9 @@ body {
   justify-content: center;
   align-items: center;
   height: 80vh;
-  /* background-color: var(--primary-colour);
-  color: var(--background-colour); */
 }
 
+/* FORM FOR ADDING NEW SCIENTISTS */
 .scientist-form {
   display: flex;
   flex-direction: column;
@@ -296,6 +306,9 @@ body {
   color: var(--background-colour);
 }
 
+/* POST PAGE */
+
+/* POST PAGE HEADER */
 .posts-head {
   display: flex;
   align-items: center;
@@ -324,6 +337,7 @@ body {
   margin-right: 10px;
 }
 
+/* OPTION TO FILTER POSTS */
 .posts-head-left .filter-div {
   display: flex;
   justify-content: space-around;
@@ -393,6 +407,7 @@ body {
   color: var(--background-colour);
 }
 
+/* INDIVIDUALLY RENDERED POSTS */
 .posts-container {
   display: flex;
   flex-direction: column;
@@ -501,6 +516,7 @@ h5 {
   margin: 0px;
 }
 
+/* FORM FOR CREATING OR UPDATING POSTS */
 .post-form {
   display: flex;
   flex-direction: column;
