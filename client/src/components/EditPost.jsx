@@ -1,17 +1,32 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
-export function NewPost({
+export default function EditPost({
   scientists,
   setScientists,
   gotScientists,
   setGotScientists,
 }) {
   const { user, isLoggedIn } = useUser();
-  const [form, setForm] = useState({ content: "", image: "", scientist: "" });
-  //   const [scientists, setScientists] = useState([]);
-  //   const gotScientists = scientists.length > 0 ? true : false;
+  const [form, setForm] = useState({ content: "", image: "", scientist: "" }); //{ content: "", image: "", scientist: "" }
+  const [post, setPost] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function getPosts() {
+      const response = await fetch(`http://localhost:8080/posts/edit/${id}`);
+      const data = await response.json();
+      setPost(data);
+      setForm({
+        content: data[0].content,
+        image: data[0].image,
+        scientist: data[0].scientist_id,
+      });
+    }
+
+    getPosts();
+  }, [id]);
 
   useEffect(() => {
     async function getScientists() {
@@ -25,32 +40,18 @@ export function NewPost({
     }
   }, [gotScientists, setScientists, setGotScientists]);
 
-  function handleAddPost(e) {
-    e.preventDefault();
-    if (isLoggedIn) {
-      if (form.scientist === "default") {
-        console.log("Please select a scientist from the drop down list");
-      } else {
-        handleSubmitPost();
-      }
-    } else {
-      console.log("Please log in to create a post");
-    }
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmitPost() {
-    const scientistId = parseInt(form.scientist);
-    const data = { ...form, scientist: scientistId, user: user };
-    console.log("data submitted: ", data);
-    const response = fetch(`http://localhost:8080/posts`, {
-      method: "POST",
+  function handleUpdatePost(e) {
+    e.preventDefault();
+    const data = { ...form, id: post[0].id };
+    const response = fetch(`http://localhost:8080/posts/edit/:id`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-  }
-
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
   }
 
   return (
@@ -61,7 +62,9 @@ export function NewPost({
           name="content"
           id="content"
           placeholder="Enter your message here..."
+          value={form.content}
           onChange={handleChange}
+          rows="10"
         ></textarea>
         <label htmlFor="image">Image Link (if applicable)</label>
         <input
@@ -70,9 +73,15 @@ export function NewPost({
           name="image"
           placeholder="Input URL of image"
           onChange={handleChange}
+          value={form.image}
         />
         <label htmlFor="scientist">Associated scientist</label>
-        <select name="scientist" id="scientist" onChange={handleChange}>
+        <select
+          name="scientist"
+          id="scientist"
+          value={form.scientist}
+          onChange={handleChange}
+        >
           <option value="default">--Select a scientist--</option>
           {scientists.map((scientist) => {
             return (
@@ -83,10 +92,12 @@ export function NewPost({
           })}
         </select>
         <div className="submit-button">
-          <button onClick={handleAddPost}>Create Post</button>
+          <button onClick={handleUpdatePost}>Update Post</button>
         </div>
       </form>
       <Link to={"/posts"}>Go back</Link>
     </div>
   );
 }
+
+// Figure out how to not have input state not 1 change behind actual state.

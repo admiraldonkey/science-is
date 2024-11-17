@@ -60,6 +60,42 @@ app.get("/posts", async function (request, response) {
   response.json(posts);
 });
 
+app.get("/posts/edit/:id", async function (request, response) {
+  const param = request.url.split(":", [2]);
+  const id = param[1];
+  const result = await db.query(
+    `
+    SELECT
+      posts.id,
+      posts.content,
+      posts.image,
+      posts.likes,
+      scientist_id,
+      scientists.name AS scientist,
+      users.name AS user
+    FROM 
+      posts
+    JOIN scientists ON posts.scientist_id = scientists.id
+    JOIN users ON posts.user_id = users.id
+    WHERE posts.id = $1 `,
+    [id]
+  );
+  const posts = result.rows;
+  response.json(posts);
+});
+
+app.put("/posts/edit/:id", async function (request, response) {
+  const id = request.body.id;
+  const content = request.body.content;
+  const scientist = request.body.scientist;
+  const image = request.body.image;
+  const result = await db.query(
+    "UPDATE posts SET content = $1, image = $2, scientist_id = $3 WHERE id = $4",
+    [content, image, scientist, id]
+  );
+  response.json("200 OK");
+});
+
 app.get("/posts/:scientist", async function (request, response) {
   const param = request.url.split(":", [2]);
   const getScientist = param[1];

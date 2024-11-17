@@ -53,10 +53,12 @@ export default function User() {
   }
 
   return (
-    <div>
+    <div className="user-login">
       {isLoggedIn && (
         <div>
-          <p>Logged in as: {user}</p>
+          <span>
+            Logged in as: <span className="user-name">{user}</span>
+          </span>
           <button onClick={handleSignOut}>Sign out</button>
         </div>
       )}

@@ -40,10 +40,9 @@ export function NewScientist(setGotScientists) {
   }
 
   return (
-    <div>
-      <form>
+    <div className="form-container">
+      <form className="scientist-form">
         <label htmlFor="name">Name of Scientist</label>
-        <br />
         <input
           type="text"
           id="name"
@@ -51,9 +50,7 @@ export function NewScientist(setGotScientists) {
           name="name"
           onChange={handleChange}
         />
-        <br />
         <label htmlFor="image">Picture</label>
-        <br />
         <input
           type="text"
           id="image"
@@ -61,18 +58,18 @@ export function NewScientist(setGotScientists) {
           name="image"
           onChange={handleChange}
         />
-        <br />
         <label htmlFor="bio">A short biography</label>
-        <br />
         <textarea
           id="bio"
           placeholder="Enter bio"
           name="bio"
+          rows="10"
           onChange={handleChange}
         ></textarea>
-        <button onClick={handleAddScientist}>Add</button>
+        <div className="submit-button">
+          <button onClick={handleAddScientist}>Add</button>
+        </div>
       </form>
-      <br />
       <Link to={"/scientists"}>Go back</Link>
     </div>
   );

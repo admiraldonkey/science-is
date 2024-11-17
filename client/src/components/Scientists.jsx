@@ -26,33 +26,39 @@ export default function Scientists({
 
   return (
     <div>
-      <h1>Notable Scientists</h1>
-      {isLoggedIn && (
-        <button>
-          <Link to="/newscientist" state={scientists}>
-            Add New Scientist
-          </Link>
-        </button>
-      )}
-      {!isLoggedIn && <p>Sign in to add a new scientist</p>}
+      <div className="scientists-head">
+        <h1>Notable Scientists</h1>
+        {isLoggedIn && (
+          <button>
+            <Link to="/newscientist" state={scientists}>
+              Add New Scientist
+            </Link>
+          </button>
+        )}
+        {!isLoggedIn && <p>Sign in to add a new scientist</p>}
+      </div>
       <div className="scientists-container">
         {scientists.map((scientist) => {
           // Splitting larger bios by carriage returns so they can be split into multiple paragraphs on page
           const bioArr = scientist.bio.split("\n");
           return (
             <div key={scientist.id} className="scientist">
-              <h3>{scientist.name}</h3>
-              <img
-                src={scientist.image}
-                alt={scientist.name}
-                width="170"
-                height="190"
-              />
-              {bioArr.map((para) => {
-                if (para.length > 1) {
-                  return <p key={para.length}>{para}</p>;
-                }
-              })}
+              <div className="scientist-name-img">
+                <h2>{scientist.name}</h2>
+                <img
+                  src={scientist.image}
+                  alt={scientist.name}
+                  width="170"
+                  height="190"
+                />
+              </div>
+              <div className="scientist-bio">
+                {bioArr.map((para) => {
+                  if (para.length > 1) {
+                    return <p key={para.length}>{para}</p>;
+                  }
+                })}
+              </div>
             </div>
           );
         })}

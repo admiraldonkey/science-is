@@ -42,6 +42,7 @@ export default function Posts() {
     };
     updateLikes(postId, newLikes);
     const data = { id: postId, likes: newLikes };
+    console.log(data);
     const response = fetch(`http://localhost:8080/posts`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -49,7 +50,9 @@ export default function Posts() {
     });
   }
 
-  function handleEditPost() {}
+  function handleEditPost() {
+    console.log(scientistList);
+  }
 
   function handleDeletePost(e) {
     const selectedPost = posts.find((post) => post.id == e.target.id);
@@ -76,8 +79,8 @@ export default function Posts() {
       <div className="posts-head">
         <div className="posts-head-left">
           <h1>Current Posts</h1>
+          <label htmlFor="filter">Filter posts by scientist:</label>
           <div className="filter-div">
-            <label htmlFor="filter">Filter posts by scientist:</label>
             <select name="filter" id="filter" onChange={switchFilter}>
               <option value="default">-- Select Scientist --</option>
               {scientistList.map((scientist) => {
@@ -119,12 +122,12 @@ export default function Posts() {
                 )}
                 <div className="post-main">
                   <div className="post-header">
-                    <h3>Scientist: {post.scientist}</h3>
+                    <h3>Relevant scientist: {post.scientist}</h3>
                     <div className="post-crud-btns">
                       {/* Edit and delete options appear only for the user who made the post */}
                       {userPosted && (
                         <button id={post.id} onClick={handleEditPost}>
-                          <Link to={`/posts/edit/:${post.id}`}>Edit Post</Link>
+                          Edit Post
                         </button>
                       )}
                       {userPosted && (

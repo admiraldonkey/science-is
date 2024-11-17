@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export default function FilteredPosts() {
   const [posts, setPosts] = useState([]);
@@ -17,29 +17,47 @@ export default function FilteredPosts() {
 
   return (
     <div>
-      <h1>Posts featuring {scientist}</h1>
-      {posts.map((post) => {
-        // True if post was made by currently logged in user
-        //   const userPosted = user === post.user ? true : false;
-        if (post) {
-          return (
-            <div key={post.id} className="post">
-              {/* Add image only if image value exists and as a link */}
-              {post.image && post.image.includes("//") && (
-                <img src={post.image} width="200" height="200" />
-              )}
-              <p>{post.content}</p>
-              {post.likes ? (
-                <h5>Liked {post.likes} times</h5>
-              ) : (
-                <h5>Liked 0 times</h5>
-              )}
-              <h3>Relevant scientist: {post.scientist}</h3>
-              <h4>Posted by: {post.user}</h4>
-            </div>
-          );
-        }
-      })}
+      <div className="posts-head">
+        <h1>Posts featuring {scientist}</h1>
+      </div>
+      <div className="posts-container">
+        {posts.map((post) => {
+          // True if post was made by currently logged in user
+          //   const userPosted = user === post.user ? true : false;
+          if (post) {
+            return (
+              <div key={post.id} className="post">
+                {/* Add image only if image value exists and as a link */}
+                {post.image && post.image.includes("//") && (
+                  <div className="post-image">
+                    <img src={post.image} width="200" height="200" />
+                  </div>
+                )}
+                <div className="post-main">
+                  <div className="post-header">
+                    <h3>Scientist: {post.scientist}</h3>
+                    <div className="post-crud-btns"></div>
+                  </div>
+                  <div className="post-content">
+                    <p>{post.content}</p>
+                  </div>
+                  <div className="post-info">
+                    <h4>Posted by: {post.user}</h4>
+                    <div className="post-likes">
+                      {post.likes ? (
+                        <h5>Liked {post.likes} times</h5>
+                      ) : (
+                        <h5>Liked 0 times</h5>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        })}
+        <Link to={"/posts"}>Go back</Link>
+      </div>
     </div>
   );
 }

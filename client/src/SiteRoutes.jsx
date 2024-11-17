@@ -6,6 +6,7 @@ import User from "./components/User";
 import Posts from "./components/Posts";
 import { NewPost } from "./components/NewPost";
 import FilteredPosts from "./components/FilteredPosts";
+import EditPost from "./components/EditPost";
 
 export default function SiteRoutes({
   chooseWord,
@@ -40,6 +41,17 @@ export default function SiteRoutes({
         path="/newpost"
         element={
           <NewPost
+            scientists={scientists}
+            setScientists={setScientists}
+            gotScientists={gotScientists}
+            setGotScientists={setGotScientists}
+          />
+        }
+      />
+      <Route
+        path="/posts/edit/:id"
+        element={
+          <EditPost
             scientists={scientists}
             setScientists={setScientists}
             gotScientists={gotScientists}

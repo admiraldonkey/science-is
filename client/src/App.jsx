@@ -22,7 +22,6 @@ const scienceWord = [
   "fascinating",
   "mind blowing",
   "wonderful",
-  "as science does",
   "groovy",
 ];
 
@@ -36,17 +35,18 @@ export default function App() {
   return (
     <div>
       <UserProvider>
-        <Nav />
-        <h1 className="headline">
-          Science is... <span className="headline-word">{chooseWord()}</span>
-        </h1>
-        <SiteRoutes
-          chooseWord={chooseWord}
-          scientists={scientists}
-          setScientists={setScientists}
-          gotScientists={gotScientists}
-          setGotScientists={setGotScientists}
-        />
+        <header>
+          <Nav chooseWord={chooseWord} />
+        </header>
+        <main>
+          <SiteRoutes
+            chooseWord={chooseWord}
+            scientists={scientists}
+            setScientists={setScientists}
+            gotScientists={gotScientists}
+            setGotScientists={setGotScientists}
+          />
+        </main>
       </UserProvider>
     </div>
   );
