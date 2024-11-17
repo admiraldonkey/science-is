@@ -27,11 +27,11 @@ export function NewScientist(setGotScientists) {
   function postScientist() {
     const data = { ...form };
     console.log(data);
-    const response = fetch(`http://localhost:8080/scientists`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    // const response = fetch(`http://localhost:8080/scientists`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(data),
+    // });
     setGotScientists(false);
   }
 
@@ -49,6 +49,7 @@ export function NewScientist(setGotScientists) {
           placeholder="Enter Name"
           name="name"
           onChange={handleChange}
+          required
         />
         <label htmlFor="image">Picture</label>
         <input
@@ -65,6 +66,7 @@ export function NewScientist(setGotScientists) {
           name="bio"
           rows="10"
           onChange={handleChange}
+          required
         ></textarea>
         <div className="submit-button">
           <button onClick={handleAddScientist}>Add</button>
